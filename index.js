@@ -12,6 +12,13 @@ app.listen(PORT, () => {
 });
 
 app.get('/', (req, res) => {
+  conn.query('SELECT Id, Name FROM Account', (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
   res.send('Salesforce Node.js Integration');
 });
 
