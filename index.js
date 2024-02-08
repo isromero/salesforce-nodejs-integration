@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import jsforce from 'jsforce';
 
 dotenv.config();
 
@@ -16,3 +17,16 @@ app.get('/', (req, res) => {
 
 
 const { SF_LOGIN_URL, SF_USERNAME, SF_PASSWORD, SF_SECURITY_TOKEN } = process.env;
+
+const conn = new jsforce.Connection({
+  loginUrl: SF_LOGIN_URL
+});
+
+conn.login(SF_USERNAME, SF_PASSWORD + SF_SECURITY_TOKEN, (err, userInfo) => {
+  if (err) {
+    return console.error(err);
+  }
+  console.log('Connected to Salesforce');
+  console.log('User ID: ' + userInfo.id);
+  console.log('Org ID: ' + userInfo.organizationId);
+});
